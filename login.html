@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Masuk — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 24px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Animated background orbs */
+    .orb {
+      position: fixed; border-radius: 50%;
+      filter: blur(80px); pointer-events: none; z-index: 0;
+    }
+    .orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(212,130,10,0.14) 0%, transparent 70%);
+      top: -240px; left: -240px;
+      animation: floatOrb 12s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(181,101,29,0.12) 0%, transparent 70%);
+      bottom: -220px; right: -220px;
+      animation: floatOrb 16s ease-in-out infinite reverse;
+    }
+    .orb-3 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(232,168,40,0.08) 0%, transparent 70%);
+      top: 18%; left: 60%;
+      animation: floatOrb 14s ease-in-out infinite;
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.05); }
+    }
+
+    .login-card {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 520px;
+      background: rgba(255,248,240,0.04);
+      border: 1px solid rgba(255,248,240,0.1);
+      border-radius: 28px;
+      backdrop-filter: blur(26px);
+      padding: 56px 44px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.45);
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background:
+        radial-gradient(420px 240px at 20% 0%, rgba(212,130,10,0.25) 0%, transparent 60%),
+        radial-gradient(360px 220px at 90% 40%, rgba(232,168,40,0.16) 0%, transparent 60%);
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .login-card > * { position: relative; }
+
+    .login-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .login-logo {
+      text-align: center;
+      margin: 0;
+    }
+
+    .logo-ring {
+      width: 78px; height: 78px;
+      background: linear-gradient(135deg, var(--honey), var(--caramel));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.9rem;
+      box-shadow: 0 10px 40px rgba(212,130,10,0.35);
+      border: 1px solid rgba(232,168,40,0.25);
+    }
+
+    .login-brand h1 {
+      font-size: 1.45rem;
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .login-brand p {
+      margin: 6px 0 0;
+      font-size: 0.88rem;
+      color: rgba(245,230,208,0.45);
+      line-height: 1.4;
+    }
+
+    .login-title {
+      margin-bottom: 28px;
+      padding-top: 6px;
+    }
+    .login-title h2 { font-size: 1.75rem; color: var(--white); margin-bottom: 6px; }
+    .login-title p { font-size: 0.92rem; color: rgba(245,230,208,0.45); line-height: 1.7; }
+
+    .error-msg {
+      background: rgba(192,57,43,0.15);
+      border: 1px solid rgba(192,57,43,0.3);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: #f1948a;
+      margin-bottom: 18px;
+      display: none;
+    }
+
+    .form-group { margin-bottom: 18px; }
+
+    .input-icon-wrap { position: relative; }
+    .input-icon-wrap .icon {
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem; opacity: 0.45; pointer-events: none;
+    }
+    .input-icon-wrap .form-input { padding-left: 42px; }
+
+    .toggle-pass {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: rgba(245,230,208,0.35);
+      cursor: pointer; font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .toggle-pass:hover { color: var(--gold); }
+
+    .hint {
+      font-size: 0.75rem;
+      color: rgba(245,230,208,0.35);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .hint span { color: var(--honey); }
+
+    .login-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 6px;
+      margin-bottom: 18px;
+    }
+
+    .remember-me {
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; font-size: 0.88rem; color: rgba(245,230,208,0.55);
+      user-select: none;
+    }
+
+    .remember-me input { display: none; }
+    .remember-box {
+      width: 18px; height: 18px;
+      border: 1.5px solid rgba(232,168,40,0.4);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .remember-me input:checked + .remember-box {
+      background: var(--honey);
+      border-color: var(--honey);
+    }
+    .remember-me input:checked + .remember-box::after {
+      content: '✓';
+      font-size: 0.68rem;
+      font-weight: 900;
+      color: var(--espresso);
+    }
+
+    .forgot-link {
+      font-size: 0.88rem; color: var(--gold);
+      text-decoration: none; font-weight: 600;
+      opacity: 0.95;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .btn-login {
+      width: 100%;
+      padding: 15px 18px;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: rgba(245,230,208,0.45);
+    }
+    .register-link a { color: var(--gold); text-decoration: none; font-weight: 700; }
+    .register-link a:hover { text-decoration: underline; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      .login-card { padding: 48px 18px; }
+      .login-top { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="login-page">
+    <div class="login-card fade-in">
+      <div class="login-top">
+        <div class="login-brand">
+          <div class="login-logo">
+            <div class="logo-ring">☕</div>
+          </div>
+          <div>
+            <h1>Al Coffee</h1>
+            <p>Specialty Coffee Experience</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-title">
+        <h2>Selamat Datang Kembali</h2>
+        <p>Masuk untuk melanjutkan perjalanan kopi Anda</p>
+      </div>
+
+      <div class="error-msg" id="errorMsg">⚠️ Email atau password salah. Silakan coba lagi.</div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <div class="input-icon-wrap">
+            <span class="icon">✉️</span>
+            <input type="email" class="form-input" id="email" placeholder="al@email.com" required/>
+          </div>
+          <div class="hint">Demo: gunakan email apapun yang valid</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-icon-wrap">
+            <span class="icon">🔒</span>
+            <input type="password" class="form-input" id="password" placeholder="Password Anda" style="padding-right:42px" required/>
+            <button type="button" class="toggle-pass" id="passToggle" aria-label="Tampilkan sembunyikan password">👁</button>
+          </div>
+          <div class="hint">Demo: gunakan password apapun <span>≥ 6 karakter</span></div>
+        </div>
+
+        <div class="login-actions">
+          <label class="remember-me">
+            <input type="checkbox" id="remember" />
+            <span class="remember-box"></span>
+            Ingat Saya
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-gold btn-login">Masuk Sekarang →</button>
+
+        <div class="register-link">
+          Belum punya akun? <a href="regist coffe.html">Daftar gratis</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const passToggle = document.getElementById('passToggle');
+    const password = document.getElementById('password');
+
+    passToggle.addEventListener('click', () => {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+    });
+
+    // Demo login: jika valid sederhana, arahkan ke tntg.html
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = (document.getElementById('email').value || '').trim();
+      const pass = (document.getElementById('password').value || '').trim();
+
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (!email || !email.includes('@') || pass.length < 6) {
+        errorMsg.style.display = 'block';
+        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      errorMsg.style.display = 'none';
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
+
