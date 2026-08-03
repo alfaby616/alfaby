@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembayaran — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page { padding-top: 72px; }
+
+    .pay-hero {
+      padding: 80px 80px 20px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+      text-align: center;
+    }
+    .pay-hero h1 { color: var(--white); font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 10px; }
+    .pay-hero p { color: rgba(245,230,208,0.55); max-width: 760px; margin: 0 auto; line-height: 1.9; font-size: 0.95rem; }
+
+    .pay-layout {
+      padding: 26px 80px 90px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,248,240,0.1);
+      background: rgba(255,248,240,0.04);
+    }
+
+    .panel h2 {
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .order-mini {
+      color: rgba(245,230,208,0.6);
+      line-height: 1.8;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .field { margin-bottom: 16px; }
+
+    .label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      border: 1.5px solid rgba(255,248,240,0.12);
+      background: rgba(255,248,240,0.05);
+      color: var(--cream);
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.98rem;
+    }
+
+    .input:focus {
+      border-color: var(--honey);
+      box-shadow: 0 0 0 3px rgba(212,130,10,0.15);
+      background: rgba(255,248,240,0.08);
+    }
+
+    .radio-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,248,240,0.12);
+      background: rgba(255,248,240,0.03);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .radio.active {
+      border-color: rgba(232,168,40,0.5);
+      background: rgba(232,168,40,0.12);
+    }
+
+    .radio strong { color: var(--white); }
+    .radio span { color: rgba(245,230,208,0.55); font-weight: 700; }
+
+    .pay-summary .line {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      color: rgba(245,230,208,0.6);
+      font-weight: 800;
+    }
+
+    .pay-summary .total {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.25rem;
+    }
+
+    .pay-actions {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .note {
+      color: rgba(245,230,208,0.45);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(26,10,0,0.92);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .success-overlay.show { display: flex; }
+
+    .success-card {
+      background: var(--dark-roast);
+      border: 1px solid rgba(232,168,40,0.35);
+      border-radius: 24px;
+      padding: 60px 48px;
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .success-card .icon { font-size: 4rem; margin-bottom: 14px; }
+    .success-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .success-card p {
+      color: rgba(245,230,208,0.65);
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+
+    /* Scroll animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .pay-hero { padding: 70px 24px 10px; }
+      .pay-layout { padding: 18px 24px 60px; grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <div class="logo-icon">☕</div>
+      Aroma Coffee
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="tntg.html">Tentang Kami</a></li>
+      <li><a href="cs.html">Customer Service</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="btn-nav btn-outline">Masuk</a>
+      <a href="regist coffe.html" class="btn-nav btn-primary">Daftar</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="pay-hero fade-up">
+      <h1>Pembayaran</h1>
+      <p>Checkout sederhana (demo). Keranjang akan diproses secara lokal menggunakan localStorage.</p>
+    </section>
+
+    <section class="pay-layout">
+      <div class="panel fade-up">
+        <h2>Data Pembeli</h2>
+
+        <div class="field">
+          <label class="label" for="nama">Nama</label>
+          <input id="nama" class="input" type="text" placeholder="Nama lengkap" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="alamat">Alamat</label>
+          <input id="alamat" class="input" type="text" placeholder="Alamat lengkap" />
+        </div>
+
+        <div class="field">
+          <label class="label">Metode Pembayaran</label>
+          <div class="radio-row">
+            <div class="radio active" data-method="va">
+              <strong>Virtual Account</strong>
+              <span>Bayar transfer</span>
+            </div>
+            <div class="radio" data-method="ewallet">
+              <strong>E-Wallet</strong>
+              <span>QR / top up</span>
+            </div>
+            <div class="radio" data-method="cod">
+              <strong>COD</strong>
+              <span>Bayar di tempat</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          Setelah klik “Bayar Sekarang”, akan muncul bukti pembayaran demo dan keranjang akan dikosongkan.
+        </div>
+      </div>
+
+      <aside class="panel pay-summary fade-up">
+        <h2>Ringkasan Pesanan</h2>
+        <div id="orderMini" class="order-mini">...</div>
+
+        <div class="line"><span>Subtotal</span><span id="subtotal">Rp 0</span></div>
+        <div class="line"><span>Biaya Layanan</span><span id="serviceFee">Rp 0</span></div>
+        <div class="line"><span>Estimasi Pajak</span><span id="taxFee">Rp 0</span></div>
+        <div class="total">Total: <span id="total">Rp 0</span></div>
+
+        <div class="pay-actions">
+          <button id="payNowBtn" class="btn btn-gold btn-full" style="border:none; width:100%; padding:14px 18px; font-size:1rem; font-weight:900; cursor:pointer;">
+            Bayar Sekarang →
+          </button>
+          <a href="keranjang.html" class="btn btn-ghost btn-full" style="text-decoration:none; text-align:center; padding:14px 18px; border-radius: var(--radius-pill);">Kembali ke Keranjang</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-card">
+      <div class="icon">☕</div>
+      <h3>Bayar Berhasil!</h3>
+      <p id="successText">Pembayaran demo berhasil diproses.</p>
+      <a href="index.html" class="btn btn-gold" style="margin-top:12px; text-decoration:none;">Kembali ke Beranda</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>☕ Al Coffee</h3>
+        <p>Specialty coffee house yang menghadirkan cita rasa terbaik biji kopi Nusantara sejak 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="tntg.html">Tentang Kami</a></li>
+          <li><a href="cs.html">Customer Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Akun</h4>
+        <ul>
+          <li><a href="login.html">Masuk</a></li>
+          <li><a href="regist coffe.html">Daftar</a></li>
+          <li><a href="#">Program Loyalty</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Surabaya, Jawa Timur</a></li>
+          <li><a href="#">cs@alcoffee.id</a></li>
+          <li><a href="#">+62 821 3926-1184</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Aroma Coffee. All rights reserved.</span>
+      <span>Made with ❤️ & ☕ in Surabaya</span>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) el.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    const cartRaw = localStorage.getItem('aromaCart');
+    const cart = cartRaw ? JSON.parse(cartRaw) : [];
+
+    function formatIDR(n) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+    }
+
+    const subtotalEl = document.getElementById('subtotal');
+    const serviceFeeEl = document.getElementById('serviceFee');
+    const taxFeeEl = document.getElementById('taxFee');
+    const totalEl = document.getElementById('total');
+    const orderMiniEl = document.getElementById('orderMini');
+
+    const serviceFee = 0.03; // 3%
+    const taxFeeRate = 0.02; // 2%
+
+    const lineItems = cart.map(item => {
+      const qty = item.qty || 1;
+      const price = item.price || 0;
+      return { name: item.name, qty, price, line: qty * price };
+    });
+
+    const subtotal = lineItems.reduce((sum, li) => sum + li.line, 0);
+    const computedService = Math.round(subtotal * serviceFee);
+    const computedTax = Math.round(subtotal * taxFeeRate);
+    const total = subtotal + computedService + computedTax;
+
+    if (!cart.length) {
+      orderMiniEl.textContent = 'Keranjang kosong. Kembali ke menu untuk mulai pesan.';
+      subtotalEl.textContent = formatIDR(0);
+      serviceFeeEl.textContent = formatIDR(0);
+      taxFeeEl.textContent = formatIDR(0);
+      totalEl.textContent = formatIDR(0);
+      document.getElementById('payNowBtn').disabled = true;
+      document.getElementById('payNowBtn').style.opacity = '0.6';
+    } else {
+      orderMiniEl.innerHTML = lineItems
+        .map(li => `<div style="margin:6px 0;">• ${li.name} <span style="color:rgba(245,230,208,0.45);">(${li.qty}x)</span></div>`)
+        .join('');
+
+      subtotalEl.textContent = formatIDR(subtotal);
+      serviceFeeEl.textContent = formatIDR(computedService);
+      taxFeeEl.textContent = formatIDR(computedTax);
+      totalEl.textContent = formatIDR(total);
+    }
+
+    // metode pembayaran UI
+    document.querySelectorAll('.radio').forEach(r => {
+      r.addEventListener('click', () => {
+        document.querySelectorAll('.radio').forEach(x => x.classList.remove('active'));
+        r.classList.add('active');
+      });
+    });
+
+    // bayar (demo)
+    const payNowBtn = document.getElementById('payNowBtn');
+    const successOverlay = document.getElementById('successOverlay');
+
+    payNowBtn.addEventListener('click', () => {
+      if (!cart.length) return;
+      successOverlay.classList.add('show');
+      localStorage.removeItem('aromaCart');
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Service — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { padding-top: 72px; }
+
+    .cs-hero {
+      padding: 90px 80px 40px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+      text-align: center;
+    }
+    .cs-hero .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--honey);
+      margin-bottom: 16px;
+    }
+    .cs-hero h1 {
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.3rem, 4.8vw, 4rem);
+      margin-bottom: 12px;
+    }
+    .cs-hero p {
+      color: rgba(245,230,208,0.55);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.9;
+      font-size: 0.95rem;
+    }
+
+    .cs-layout {
+      padding: 26px 80px 90px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 22px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,248,240,0.1);
+      background: rgba(255,248,240,0.04);
+    }
+
+    .panel h2 {
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .panel p {
+      color: rgba(245,230,208,0.55);
+      line-height: 1.8;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    .contact-list { display: grid; gap: 12px; }
+
+    .contact-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,248,240,0.08);
+      background: rgba(0,0,0,0.08);
+    }
+
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(232,168,40,0.12);
+      border: 1px solid rgba(232,168,40,0.22);
+      color: var(--gold);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .contact-item b {
+      color: var(--white);
+      display: block;
+      margin-bottom: 4px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+    }
+    .contact-item span {
+      color: rgba(245,230,208,0.55);
+      line-height: 1.7;
+      font-size: 0.9rem;
+      display: block;
+    }
+
+    .form { display: grid; gap: 16px; }
+    textarea.input { min-height: 130px; resize: vertical; }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .note {
+      color: rgba(245,230,208,0.45);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .toast-success {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(39,174,96,0.35);
+      background: rgba(39,174,96,0.12);
+      color: rgba(245,230,208,0.9);
+      margin-top: 14px;
+      font-weight: 800;
+    }
+
+    /* Scroll animation */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .cs-hero { padding: 70px 24px 24px; }
+      .cs-layout { padding: 18px 24px 60px; grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <div class="logo-icon">☕</div>
+      Al Coffee
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="tntg.html">Tentang Kami</a></li>
+      <li><a href="cs.html" class="active">Customer Service</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="btn-nav btn-outline">Masuk</a>
+      <a href="regist coffe.html" class="btn-nav btn-primary">Daftar</a>
+    </div>
+  </nav>
+
+  <section class="cs-hero fade-up">
+    <span class="eyebrow">Support Center</span>
+    <h1>Customer Service <em>Al Coffee</em></h1>
+    <p>Butuh bantuan terkait pesanan, pembayaran, atau akun member? Kirim pesan di bawah—tim kami akan membalas secepat mungkin (demo).</p>
+  </section>
+
+  <section class="cs-layout">
+    <div class="panel fade-up">
+      <h2>Kontak Cepat</h2>
+      <p>Pilih kanal yang paling nyaman untuk kamu.</p>
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <b>Email</b>
+            <span>cs@alcoffee.id (balasan maksimal 1x24 jam)</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <b>Telepon</b>
+            <span>+62 821 3926-1184</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <b>Lokasi</b>
+            <span>Surabaya, Jawa Timur</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px;">
+        Tip: Untuk keluhan pesanan, sertakan nama & nomor pesanan (demo).
+      </div>
+    </div>
+
+    <div class="panel fade-up">
+      <h2>Kirim Pesan</h2>
+      <p>Form ini simulasi (front-end) dan akan menampilkan notifikasi berhasil.</p>
+
+      <form id="csForm" class="form" novalidate>
+        <div>
+          <label class="form-label">Nama</label>
+          <input id="csName" class="form-input input" type="text" placeholder="Nama lengkap" required/>
+        </div>
+
+        <div>
+          <label class="form-label">Email</label>
+          <input id="csEmail" class="form-input input" type="email" placeholder="nama@email.com" required/>
+        </div>
+
+        <div>
+          <label class="form-label">Topik</label>
+          <select id="csTopic" class="form-input input" required>
+            <option value="">Pilih topik</option>
+            <option value="pesanan">Pesanan</option>
+            <option value="pembayaran">Pembayaran</option>
+            <option value="akun">Akun / Member</option>
+            <option value="lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">Pesan</label>
+          <textarea id="csMessage" class="input" placeholder="Tulis pesan kamu..." required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-gold">Kirim Pesan →</button>
+          <a href="menu.html" class="btn btn-ghost">Kembali ke Menu</a>
+        </div>
+
+        <div id="csSuccess" class="toast-success">Pesan terkirim! Tim CS akan menghubungi kamu secepatnya. (Demo)</div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>☕ Al Coffee</h3>
+        <p>Specialty coffee house yang menghadirkan cita rasa terbaik biji kopi Nusantara sejak 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="tntg.html">Tentang Kami</a></li>
+          <li><a href="cs.html">Customer Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Akun</h4>
+        <ul>
+          <li><a href="login.html">Masuk</a></li>
+          <li><a href="regist coffe.html">Daftar</a></li>
+          <li><a href="#">Program Loyalty</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Surabaya, Jawa Timur</a></li>
+          <li><a href="#">cs@alcoffee.id</a></li>
+          <li><a href="#">+62 821 3926-1184</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Aroma Coffee. All rights reserved.</span>
+      <span>Made with ❤️ & ☕ in Surabaya</span>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) el.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // CS form demo
+    const form = document.getElementById('csForm');
+    const success = document.getElementById('csSuccess');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = (document.getElementById('csName').value || '').trim();
+      const email = (document.getElementById('csEmail').value || '').trim();
+      const topic = document.getElementById('csTopic').value;
+      const message = (document.getElementById('csMessage').value || '').trim();
+
+      if (!name || !email || !topic || !message) {
+        alert('Mohon lengkapi semua field.');
+        return;
+      }
+
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      form.reset();
+    });
+  </script>
+</body>
+</html>
+

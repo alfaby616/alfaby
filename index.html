@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beranda — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 120px 80px 70px;
+      text-align: left;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background:
+        radial-gradient(ellipse 60% 70% at 20% 10%, rgba(212,130,10,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 70% at 80% 30%, rgba(232,168,40,0.12) 0%, transparent 55%),
+        linear-gradient(180deg, rgba(26,10,0,0.0) 0%, rgba(26,10,0,0.7) 100%);
+      pointer-events: none;
+    }
+    .hero .container {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 4.6vw, 5rem);
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+    .hero .lead {
+      color: rgba(245,230,208,0.6);
+      font-size: 1.02rem;
+      line-height: 1.85;
+      max-width: 620px;
+      margin-bottom: 26px;
+    }
+    .hero .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--honey);
+      margin-bottom: 16px;
+    }
+
+    .hero .cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .hero .mini-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .hero .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(232,168,40,0.2);
+      background: rgba(255,248,240,0.03);
+      color: rgba(245,230,208,0.6);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .hero .mini-pill .icon {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: rgba(232,168,40,0.12);
+      border: 1px solid rgba(232,168,40,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+
+    /* HERO RIGHT CARD */
+    .hero-card {
+      position: relative;
+      background: linear-gradient(160deg, var(--mahogany) 0%, var(--dark-roast) 100%);
+      border: 1px solid rgba(232,168,40,0.18);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow-deep);
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      inset: -40px;
+      background:
+        radial-gradient(circle 240px at 30% 20%, rgba(212,130,10,0.28) 0%, transparent 70%),
+        radial-gradient(circle 180px at 70% 80%, rgba(232,168,40,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-card .card-inner {
+      position: relative;
+      display: grid;
+      gap: 16px;
+    }
+    .hero-card .card-title {
+      font-size: 1.2rem;
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .hero-card .card-sub {
+      color: rgba(245,230,208,0.55);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .promo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .promo {
+      padding: 14px 12px;
+      border-radius: 16px;
+      background: rgba(255,248,240,0.04);
+      border: 1px solid rgba(255,248,240,0.08);
+    }
+    .promo .picon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      opacity: 0.95;
+    }
+    .promo .ptext {
+      color: rgba(245,230,208,0.65);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .card-cta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,248,240,0.08);
+    }
+    .rating .stars {
+      color: var(--gold);
+      letter-spacing: 1px;
+      font-size: 0.95rem;
+    }
+    .rating .score {
+      color: rgba(245,230,208,0.75);
+      font-weight: 800;
+    }
+
+    /* SECTION: MENU PREVIEW */
+    .section {
+      padding: 70px 80px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    .section-header .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--honey);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    .section-header h2 {
+      font-size: 2.5rem;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .section-header h2 em { color: var(--gold); font-style: italic; }
+    .section-header p {
+      color: rgba(245,230,208,0.5);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    #menu .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+    .menu-item {
+      padding: 26px 22px;
+      border-radius: 22px;
+      background: rgba(255,248,240,0.04);
+      border: 1px solid rgba(255,248,240,0.1);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .menu-item:hover {
+      border-color: rgba(232,168,40,0.35);
+      background: rgba(255,248,240,0.07);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-warm);
+    }
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      inset: -30px;
+      background: radial-gradient(circle 140px at 20% 20%, rgba(212,130,10,0.25) 0%, transparent 70%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .menu-item .top { position: relative; }
+    .menu-item .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      background: rgba(232,168,40,0.13);
+      border: 1px solid rgba(232,168,40,0.22);
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .menu-item .name {
+      color: var(--white);
+      font-size: 1.25rem;
+      font-weight: 900;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 8px;
+    }
+    .menu-item .desc {
+      color: rgba(245,230,208,0.55);
+      line-height: 1.75;
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+    }
+    .menu-item .bottom {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .price {
+      color: rgba(245,230,208,0.75);
+      font-weight: 900;
+      font-size: 1.05rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* SECTION: VALUES STRIP */
+    .values-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .strip-card {
+      padding: 22px 18px;
+      border-radius: 20px;
+      background: rgba(255,248,240,0.03);
+      border: 1px solid rgba(255,248,240,0.08);
+      text-align: center;
+    }
+    .strip-card .ico {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+    .strip-card h3 {
+      color: var(--white);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      font-family: 'Playfair Display', serif;
+    }
+    .strip-card p {
+      color: rgba(245,230,208,0.55);
+      line-height: 1.7;
+      font-size: 0.9rem;
+    }
+
+    /* CTA */
+    .cta {
+      padding: 80px 80px;
+      background: linear-gradient(160deg, rgba(74,34,0,0.35) 0%, transparent 100%);
+      border-top: 1px solid rgba(232,168,40,0.12);
+      text-align: center;
+    }
+    .cta h2 { font-size: 2.6rem; color: var(--white); margin-bottom: 14px; }
+    .cta h2 em { color: var(--gold); font-style: italic; }
+    .cta p { color: rgba(245,230,208,0.52); max-width: 720px; margin: 0 auto 28px; line-height: 1.85; }
+
+    @media (max-width: 900px) {
+      .hero { padding: 100px 24px 50px; }
+      .hero .container { grid-template-columns: 1fr; gap: 22px; }
+      .section { padding: 60px 24px; }
+      #menu .menu-grid { grid-template-columns: 1fr; }
+      .values-strip { grid-template-columns: 1fr 1fr; }
+      .cta { padding: 60px 24px; }
+    }
+
+    /* Scroll animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="page-bg">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <div class="logo-icon">☕</div>
+      Al Coffee
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html" class="active">Beranda</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="tntg.html">Tentang Kami</a></li>
+      <li><a href="cs.html">Customer Service</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="btn-nav btn-outline">Masuk</a>
+      <a href="regist coffe.html" class="btn-nav btn-primary">Daftar</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero fade-up">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Specialty Coffee Experience</span>
+        <h1>
+          Nikmati Kopi <em>Spesial</em><br>
+          dari Petani Indonesia
+        </h1>
+        <p class="lead">
+          Al Coffee menghadirkan racikan konsisten dengan rasa autentik. Jelajahi menu favorit, temukan promo member, dan rasakan pengalaman “farm-to-cup” hanya di sini.
+        </p>
+
+        <div class="cta-row">
+          <a href="menu.html" class="btn btn-gold">Lihat Menu →</a>
+          <a href="tntg.html" class="btn btn-ghost">Kenali Kami</a>
+        </div>
+
+        <div class="mini-row">
+          <div class="mini-pill"><span class="icon">⚡</span> Response Cepat</div>
+          <div class="mini-pill"><span class="icon">⭐</span> 4.9 Rating</div>
+          <div class="mini-pill"><span class="icon">🌱</span> Sustainably Sourced</div>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <div class="card-inner">
+          <div>
+            <div class="card-title">Menu Hari Ini</div>
+            <div class="card-sub">Pilih favoritmu — dan klaim promo member di kasir.</div>
+          </div>
+
+          <div class="promo-grid">
+            <div class="promo"><div class="picon">🍯</div><div class="ptext">Honey Latte Member</div></div>
+            <div class="promo"><div class="picon">🍫</div><div class="ptext">Choco Mocha Signature</div></div>
+            <div class="promo"><div class="picon">🥤</div><div class="ptext">Iced Citrus Cold Brew</div></div>
+            <div class="promo"><div class="picon">🌿</div><div class="ptext">Matcha Creamy</div></div>
+          </div>
+
+          <div class="card-cta">
+            <div class="rating">
+              <span class="stars">★★★★★</span>
+              <span class="score">4.9</span>
+            </div>
+            <a href="login.html" class="btn btn-ghost" style="padding:12px 18px;">Cek Akun</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- MENU PREVIEW -->
+  <section class="section" id="menu">
+    <div class="section-header fade-up">
+      <div class="eyebrow">Menu Pilihan</div>
+      <h2>Racikan <em>Best Seller</em></h2>
+      <p>Pilih dari beberapa favorit pelanggan. Setiap cup diracik dengan standar yang sama — dari langkah pertama sampai sedotan terakhir.</p>
+    </div>
+
+    <div class="menu-grid">
+      <article class="menu-item fade-up" style="transition-delay:0s">
+        <div class="top">
+          <div class="tag">Signature</div>
+          <div class="name">Al Honey Latte</div>
+          <div class="desc">Latte creamy dengan sentuhan madu hangat. Rasa manis lembut, finish clean.</div>
+        </div>
+        <div class="bottom">
+          <div class="price">Rp 28.000</div>
+          <a href="login.html" class="btn btn-ghost" style="padding:10px 16px;">Pesan</a>
+        </div>
+      </article>
+
+      <article class="menu-item fade-up" style="transition-delay:0.1s">
+        <div class="top">
+          <div class="tag">Most Loved</div>
+          <div class="name">Toraja Dark Espresso</div>
+          <div class="desc">Espresso single origin dengan body tebal, aroma cokelat, dan aftertaste karamel.</div>
+        </div>
+        <div class="bottom">
+          <div class="price">Rp 22.000</div>
+          <a href="login.html" class="btn btn-ghost" style="padding:10px 16px;">Pesan</a>
+        </div>
+      </article>
+
+      <article class="menu-item fade-up" style="transition-delay:0.2s">
+        <div class="top">
+          <div class="tag">Fresh</div>
+          <div class="name">Iced Citrus Cold Brew</div>
+          <div class="desc">Cold brew yang disegarkan citrus. Perpaduan asam cerah dan rasa kopi yang halus.</div>
+        </div>
+        <div class="bottom">
+          <div class="price">Rp 30.000</div>
+          <a href="login.html" class="btn btn-ghost" style="padding:10px 16px;">Pesan</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="values-strip">
+      <div class="strip-card fade-up" style="transition-delay:0s">
+        <div class="ico">📍</div>
+        <h3>Origin Terjaga</h3>
+        <p>Traceability dari kebun ke cangkir.</p>
+      </div>
+      <div class="strip-card fade-up" style="transition-delay:0.1s">
+        <div class="ico">🎯</div>
+        <h3>Konsisten</h3>
+        <p>Rasa stabil di setiap kunjungan.</p>
+      </div>
+      <div class="strip-card fade-up" style="transition-delay:0.2s">
+        <div class="ico">🤝</div>
+        <h3>Community</h3>
+        <p>Ruang diskusi kopi dan event komunitas.</p>
+      </div>
+      <div class="strip-card fade-up" style="transition-delay:0.3s">
+        <div class="ico">♻️</div>
+        <h3>Lebih Ramah</h3>
+        <p>Pengurangan waste, cup dapat didaur ulang.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta fade-up">
+    <h2>Siap mulai rasa baru di <em>Al Coffee</em>?</h2>
+    <p>Masuk untuk mengakses promo member dan riwayat pesanan. Atau daftar sekarang agar dapat poin reward sejak hari pertama.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a href="login.html" class="btn btn-gold">Masuk →</a>
+      <a href="regist coffe.html" class="btn btn-ghost">Daftar Gratis</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>☕ Al Coffee</h3>
+        <p>Specialty coffee house yang menghadirkan cita rasa terbaik biji kopi Nusantara sejak 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="tntg.html">Tentang Kami</a></li>
+          <li><a href="cs.html">Customer Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Akun</h4>
+        <ul>
+          <li><a href="login.html">Masuk</a></li>
+          <li><a href="regist coffe.html">Daftar</a></li>
+          <li><a href="#">Program Loyalty</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Surabaya, Jawa Timur</a></li>
+          <li><a href="#">cs@alcoffee.id</a></li>
+          <li><a href="#">+62 821 3926-1184</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Aroma Coffee. All rights reserved.</span>
+      <span>Made with ❤️ & ☕ in Surabaya</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) el.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .register-layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* LEFT PANEL */
+    .register-visual {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, var(--mahogany) 0%, var(--dark-roast) 60%, #0a0400 100%);
+    }
+    .register-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle 400px at 30% 40%, rgba(212,130,10,0.2) 0%, transparent 70%),
+        radial-gradient(circle 300px at 80% 80%, rgba(181,101,29,0.15) 0%, transparent 60%);
+    }
+    .visual-content {
+      position: relative; z-index: 1;
+      height: 100%; display: flex; flex-direction: column;
+      justify-content: center; padding: 60px;
+    }
+    .visual-content .eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--honey);
+      margin-bottom: 16px;
+    }
+    .visual-content h1 {
+      font-size: clamp(2rem, 3vw, 3rem);
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .visual-content h1 em { color: var(--gold); }
+    .visual-content p {
+      font-size: 0.95rem; line-height: 1.75;
+      color: rgba(245,230,208,0.6);
+      max-width: 380px; margin-bottom: 40px;
+    }
+
+    .perks { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .perks li {
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 0.9rem; color: rgba(245,230,208,0.75);
+    }
+    .perks li .perk-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: rgba(232,168,40,0.12);
+      border: 1px solid rgba(232,168,40,0.25);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .perk-text strong { display: block; color: var(--cream); font-weight: 600; margin-bottom: 2px; }
+
+    .visual-deco {
+      position: absolute; bottom: 0; right: 0;
+      font-size: 18rem; font-family: 'Playfair Display', serif;
+      line-height: 1; opacity: 0.03; color: var(--gold);
+      user-select: none; pointer-events: none;
+    }
+
+    /* RIGHT PANEL */
+    .register-form-panel {
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 40px;
+      background: rgba(255,248,240,0.02);
+      overflow-y: auto;
+    }
+    .register-form-wrap {
+      width: 100%; max-width: 500px;
+    }
+    .form-header { margin-bottom: 36px; }
+    .form-header .logo-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none; margin-bottom: 28px;
+    }
+    .form-header .logo-link span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--gold); font-weight: 700;
+    }
+    .form-header h2 {
+      font-size: 1.85rem; margin-bottom: 6px; color: var(--white);
+    }
+    .form-header p { font-size: 0.9rem; color: rgba(245,230,208,0.5); }
+
+    /* Form grid — 2 kolom */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-row .full { grid-column: 1 / -1; }
+
+    /* Password strength */
+    .pass-strength { margin-top: 6px; }
+    .strength-bar {
+      height: 3px; border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden; margin-bottom: 4px;
+    }
+    .strength-fill {
+      height: 100%; width: 0%;
+      background: var(--caramel);
+      border-radius: 2px;
+      transition: width 0.4s ease, background 0.4s ease;
+    }
+    .strength-label {
+      font-size: 0.72rem; color: rgba(245,230,208,0.4);
+    }
+
+    /* Checkbox */
+    .checkbox-group {
+      display: flex; align-items: flex-start; gap: 10px;
+      cursor: pointer; margin-bottom: 20px;
+    }
+    .checkbox-group input[type="checkbox"] { display: none; }
+    .checkbox-box {
+      width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+      border: 1.5px solid rgba(232,168,40,0.4);
+      border-radius: 4px; background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .checkbox-group input:checked + .checkbox-box {
+      background: var(--honey);
+      border-color: var(--honey);
+    }
+    .checkbox-group input:checked + .checkbox-box::after {
+      content: '✓'; color: var(--espresso); font-size: 0.7rem; font-weight: 700;
+    }
+    .checkbox-group .label-text {
+      font-size: 0.85rem;
+      color: rgba(245,230,208,0.6);
+      line-height: 1.5;
+    }
+    .checkbox-group .label-text a { color: var(--gold); text-decoration: none; }
+
+    .btn-register {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.88rem;
+      color: rgba(245,230,208,0.45);
+    }
+    .login-link a { color: var(--gold); text-decoration: none; font-weight: 600; }
+    .login-link a:hover { text-decoration: underline; }
+
+    /* Input icon wrapper */
+    .input-icon-wrap { position: relative; }
+    .input-icon-wrap .form-input { padding-left: 42px; }
+    .input-icon-wrap .icon {
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem; opacity: 0.4; pointer-events: none;
+    }
+    .input-icon-wrap .toggle-pass {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: rgba(245,230,208,0.35);
+      cursor: pointer; font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .input-icon-wrap .toggle-pass:hover { color: var(--gold); }
+
+    /* Success overlay */
+    .success-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(26,10,0,0.92);
+      align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .success-overlay.show { display: flex; }
+    .success-card {
+      background: var(--dark-roast);
+      border: 1px solid rgba(232,168,40,0.35);
+      border-radius: 24px;
+      padding: 60px 48px;
+      max-width: 420px;
+    }
+    .success-icon { font-size: 4rem; margin-bottom: 20px; }
+    .success-card h3 { font-size: 1.8rem; color: var(--gold); margin-bottom: 12px; }
+    .success-card p { font-size: 0.9rem; color: rgba(245,230,208,0.6); line-height: 1.7; }
+
+    @media (max-width: 900px) {
+      .register-layout { grid-template-columns: 1fr; }
+      .register-visual { display: none; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">☕</div>
+    <h3>Selamat Datang!</h3>
+    <p>Akun Anda berhasil dibuat. Siap menikmati pengalaman kopi terbaik bersama Al Coffee.</p>
+    <br>
+    <a href="login.html" class="btn btn-gold" style="margin-top:8px;">Masuk Sekarang</a>
+  </div>
+</div>
+
+<div class="register-layout">
+  <!-- LEFT VISUAL -->
+  <div class="register-visual">
+    <div class="visual-content">
+      <span class="eyebrow">Bergabung Sekarang</span>
+      <h1>Mulai Perjalanan<br>Kopi <em>Terbaik</em> Anda</h1>
+      <p>Daftar dan nikmati privilege member eksklusif — dari diskon spesial hingga early access menu terbaru kami.</p>
+      <ul class="perks">
+        <li>
+          <span class="perk-icon">🎁</span>
+          <span class="perk-text">
+            <strong>Poin Reward Setiap Pembelian</strong>
+            Kumpulkan poin dan tukar dengan minuman gratis
+          </span>
+        </li>
+        <li>
+          <span class="perk-icon">⚡</span>
+          <span class="perk-text">
+            <strong>Pre-order & Skip the Queue</strong>
+            Pesan sebelumnya, ambil langsung tanpa antri
+          </span>
+        </li>
+        <li>
+          <span class="perk-icon">🎂</span>
+          <span class="perk-text">
+            <strong>Hadiah Ulang Tahun</strong>
+            Surprise spesial di hari istimewa Anda
+          </span>
+        </li>
+        <li>
+          <span class="perk-icon">📰</span>
+          <span class="perk-text">
+            <strong>Akses Menu Eksklusif</strong>
+            Cicipi menu seasonal yang hanya untuk member
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="visual-deco">☕</div>
+  </div>
+
+  <!-- RIGHT FORM -->
+  <div class="register-form-panel">
+    <div class="register-form-wrap">
+      <div class="form-header">
+        <a href="index.html" class="logo-link">
+          <div class="logo-icon" style="width:32px;height:32px;background:linear-gradient(135deg,var(--honey),var(--caramel));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">☕</div>
+          <span>Aroma Coffee</span>
+        </a>
+        <h2>Buat Akun Baru</h2>
+        <p>Lengkapi data di bawah untuk memulai</p>
+      </div>
+
+      <form id="registerForm" novalidate>
+        <div class="form-row">
+          <!-- 1. Nama Depan -->
+          <div class="form-group">
+            <label class="form-label">Nama Depan</label>
+            <div class="input-icon-wrap">
+              <span class="icon">👤</span>
+              <input type="text" class="form-input" id="firstName" placeholder="al" required/>
+            </div>
+          </div>
+          <!-- 2. Nama Belakang -->
+          <div class="form-group">
+            <label class="form-label">Nama Belakang</label>
+            <div class="input-icon-wrap">
+              <span class="icon">👤</span>
+              <input type="text" class="form-input" id="lastName" placeholder="faby" required/>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Email -->
+        <div class="form-group">
+          <label class="form-label">Alamat Email</label>
+          <div class="input-icon-wrap">
+            <span class="icon">✉️</span>
+            <input type="email" class="form-input" id="email" placeholder="xxx@email.com" style="padding-left:42px" required/>
+          </div>
+        </div>
+
+        <!-- 4. Nomor Telepon -->
+        <div class="form-group">
+          <label class="form-label">Nomor Telepon</label>
+          <div class="input-icon-wrap">
+            <span class="icon">📱</span>
+            <input type="tel" class="form-input" id="phone" placeholder="+62 812 xxxx xxxx" style="padding-left:42px" required/>
+          </div>
+        </div>
+
+        <!-- 5. Tanggal Lahir -->
+        <div class="form-group">
+          <label class="form-label">Tanggal Lahir</label>
+          <div class="input-icon-wrap">
+            <span class="icon">🎂</span>
+            <input type="date" class="form-input" id="birthdate" style="padding-left:42px" required/>
+          </div>
+        </div>
+
+        <!-- 6. Kota -->
+        <div class="form-group">
+          <label class="form-label">Kota</label>
+          <div class="input-icon-wrap">
+            <span class="icon">📍</span>
+            <select class="form-input" id="city" style="padding-left:42px" required>
+              <option value="">Pilih Kota</option>
+              <option>Surabaya</option>
+              <option>Jakarta</option>
+              <option>Bandung</option>
+              <option>Yogyakarta</option>
+              <option>Malang</option>
+              <option>Bali</option>
+              <option>Medan</option>
+              <option>Semarang</option>
+              <option>Makassar</option>
+              <option>dll</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 7. Password -->
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-icon-wrap">
+            <span class="icon">🔒</span>
+            <input type="password" class="form-input" id="password" placeholder="Min. 8 karakter" style="padding-left:42px;padding-right:42px" required/>
+      <span class="toggle-pass" aria-hidden="true">👁</span>
+
+          </div>
+          <div class="pass-strength">
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <span class="strength-label" id="strengthLabel">Masukkan password</span>
+          </div>
+        </div>
+
+        <!-- 8. Konfirmasi Password -->
+        <div class="form-group">
+          <label class="form-label">Konfirmasi Password</label>
+          <div class="input-icon-wrap">
+            <span class="icon">🔒</span>
+            <input type="password" class="form-input" id="confirmPassword" placeholder="Ulangi password Anda" style="padding-left:42px" required/>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <label class="checkbox-group">
+          <input type="checkbox" id="terms" required/>
+          <span class="checkbox-box"></span>
+          <span class="label-text">Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> Aroma Coffee</span>
+        </label>
+
+        <!-- Newsletter -->
+        <label class="checkbox-group">
+          <input type="checkbox" id="newsletter" checked/>
+          <span class="checkbox-box"></span>
+          <span class="label-text">Kirimkan saya promo & penawaran eksklusif via email</span>
+        </label>
+
+        <button type="submit" class="btn btn-gold btn-register">
+          Buat Akun Gratis ✨
+        </button>
+      </form>
+
+      <p class="login-link">
+        Sudah punya akun? <a href="login.html">Masuk di sini</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Password toggle
+  function togglePass(id, btn) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  // Password strength
+  document.getElementById('password').addEventListener('input', function() {
+    const val = this.value;
+    let strength = 0;
+    if (val.length >= 8) strength++;
+    if (/[A-Z]/.test(val)) strength++;
+    if (/[0-9]/.test(val)) strength++;
+    if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+    const fill = document.getElementById('strengthFill');
+    const label = document.getElementById('strengthLabel');
+    const colors = ['#c0392b','#e67e22','#f1c40f','#27ae60'];
+    const labels = ['Lemah','Cukup','Kuat','Sangat Kuat'];
+    if (val.length === 0) {
+      fill.style.width = '0%';
+      label.textContent = 'Masukkan password';
+    } else {
+      fill.style.width = (strength * 25) + '%';
+      fill.style.background = colors[strength - 1] || colors[0];
+      label.textContent = labels[strength - 1] || 'Lemah';
+      label.style.color = colors[strength - 1] || colors[0];
+    }
+  });
+
+  // Checkbox visual
+  document.querySelectorAll('.checkbox-group').forEach(group => {
+    group.addEventListener('click', () => {
+      const cb = group.querySelector('input[type="checkbox"]');
+      cb.checked = !cb.checked;
+    });
+  });
+
+  // Form submit
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const first = document.getElementById('firstName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const birth = document.getElementById('birthdate').value;
+    const city = document.getElementById('city').value;
+    const pass = document.getElementById('password').value;
+    const confirm = document.getElementById('confirmPassword').value;
+    const terms = document.getElementById('terms').checked;
+
+    if (!first || !email || !phone || !birth || !city || !pass || !confirm) {
+      alert('Mohon lengkapi semua field.');
+      return;
+    }
+    if (pass !== confirm) {
+      alert('Password tidak cocok!');
+      return;
+    }
+    if (!terms) {
+      alert('Anda harus menyetujui syarat & ketentuan.');
+      return;
+    }
+
+    // Store user session
+    localStorage.setItem('aromaUser', JSON.stringify({ name: first, email, phone, city }));
+    document.getElementById('successOverlay').classList.add('show');
+  });
+</script>
+</body>
+</html>

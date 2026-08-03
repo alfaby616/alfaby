@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tentang Kami — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { padding-top: 72px; }
+
+    /* HERO */
+    .about-hero {
+      position: relative; overflow: hidden;
+      padding: 100px 80px 80px;
+      text-align: center;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 80% at 50% 20%, rgba(212,130,10,0.15) 0%, transparent 65%);
+    }
+    .about-hero .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--honey);
+      margin-bottom: 20px;
+    }
+    .about-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.1; margin-bottom: 24px;
+      color: var(--white);
+    }
+    .about-hero h1 em { color: var(--gold); font-style: italic; }
+    .about-hero .lead {
+      font-size: 1.05rem; line-height: 1.75;
+      color: rgba(245,230,208,0.6);
+      max-width: 600px; margin: 0 auto;
+    }
+
+    /* STATS */
+    .stats-band {
+      display: flex; justify-content: center; gap: 0;
+      padding: 50px 80px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+      border-bottom: 1px solid rgba(255,248,240,0.07);
+    }
+    .stat-item {
+      flex: 1; text-align: center;
+      padding: 20px 32px;
+      border-right: 1px solid rgba(255,248,240,0.07);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-unit { font-size: 1.4rem; }
+    .stat-label {
+      font-size: 0.82rem; color: rgba(245,230,208,0.45);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* STORY */
+    .story-section {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; padding: 100px 80px;
+      align-items: center;
+    }
+    .story-text .section-label {
+      font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--honey);
+      margin-bottom: 16px;
+    }
+    .story-text h2 { font-size: 2.2rem; margin-bottom: 24px; color: var(--white); }
+    .story-text h2 em { color: var(--gold); }
+    .story-text p {
+      font-size: 0.95rem; line-height: 1.85;
+      color: rgba(245,230,208,0.6);
+      margin-bottom: 20px;
+    }
+    .story-text blockquote {
+      border-left: 3px solid var(--honey);
+      padding-left: 20px; margin: 28px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.2rem;
+      color: rgba(245,230,208,0.75);
+      line-height: 1.6;
+    }
+
+    .story-visual {
+      position: relative;
+    }
+    .story-visual .visual-card {
+      background: linear-gradient(160deg, var(--mahogany) 0%, var(--dark-roast) 100%);
+      border-radius: 24px;
+      padding: 60px 48px;
+      text-align: center;
+      border: 1px solid rgba(232,168,40,0.15);
+      box-shadow: var(--shadow-warm);
+      position: relative; overflow: hidden;
+    }
+    .story-visual .visual-card::before {
+      content: '☕';
+      position: absolute;
+      font-size: 12rem; opacity: 0.05;
+      bottom: -30px; right: -20px;
+      line-height: 1;
+    }
+    .story-visual .year-badge {
+      display: inline-block;
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+    }
+    .story-visual .year-label {
+      font-size: 0.82rem; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,230,208,0.4);
+      margin-bottom: 28px;
+    }
+    .story-visual .milestone-list { list-style: none; text-align: left; }
+    .story-visual .milestone-list li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,248,240,0.06);
+      font-size: 0.88rem; color: rgba(245,230,208,0.65);
+    }
+    .story-visual .milestone-list li:last-child { border-bottom: none; }
+    .milestone-year {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold); font-size: 0.82rem; font-weight: 700;
+      min-width: 48px;
+    }
+
+    /* VALUES */
+    .values-section { padding: 80px 80px 100px; }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-header .eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--honey);
+      margin-bottom: 12px;
+    }
+    .section-header h2 { font-size: 2.4rem; color: var(--white); }
+    .section-header h2 em { color: var(--gold); }
+    .section-header p {
+      font-size: 0.95rem; color: rgba(245,230,208,0.5);
+      max-width: 500px; margin: 12px auto 0; line-height: 1.7;
+    }
+
+    .values-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .value-card { padding: 40px 32px; }
+    .value-icon { font-size: 2.4rem; margin-bottom: 20px; display: block; }
+    .value-card h3 { font-size: 1.2rem; margin-bottom: 12px; color: var(--white); }
+    .value-card p {
+      font-size: 0.88rem; line-height: 1.7;
+      color: rgba(245,230,208,0.5);
+    }
+
+    /* TEAM */
+    .team-section { padding: 0 80px 100px; }
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 0; }
+    .team-card { padding: 36px 28px; text-align: center; }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 16px;
+      border: 2px solid rgba(232,168,40,0.25);
+    }
+    .team-card h4 { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 4px; }
+    .team-card .role {
+      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--honey); margin-bottom: 12px;
+    }
+    .team-card p { font-size: 0.82rem; color: rgba(245,230,208,0.45); line-height: 1.6; }
+
+    /* AWARDS */
+    .awards-section {
+      padding: 60px 80px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+    }
+    .awards-row { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .award-item { text-align: center; }
+    .award-item .award-icon { font-size: 2.5rem; margin-bottom: 8px; }
+    .award-item .award-name {
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--honey); margin-bottom: 4px;
+    }
+    .award-item .award-year { font-size: 0.75rem; color: rgba(245,230,208,0.35); }
+
+    /* CTA */
+    .cta-section {
+      padding: 80px;
+      text-align: center;
+      background: linear-gradient(160deg, rgba(74,34,0,0.3) 0%, transparent 100%);
+      border-top: 1px solid rgba(232,168,40,0.12);
+    }
+    .cta-section h2 { font-size: 2.4rem; color: var(--white); margin-bottom: 16px; }
+    .cta-section h2 em { color: var(--gold); }
+    .cta-section p { color: rgba(245,230,208,0.5); margin-bottom: 36px; font-size: 1rem; }
+    .cta-btns { display: flex; justify-content: center; gap: 16px; }
+
+    @media (max-width: 900px) {
+      .about-hero, .story-section, .values-section, .team-section, .awards-section, .cta-section { padding: 60px 24px; }
+      .stats-band { padding: 40px 24px; flex-wrap: wrap; }
+      .stat-item { min-width: 50%; border-right: none; border-bottom: 1px solid rgba(255,248,240,0.07); }
+      .story-section, .values-grid, .team-grid { grid-template-columns: 1fr; }
+      .cta-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="navbar-logo">
+    <div class="logo-icon">☕</div>
+    Al Coffee
+  </a>
+  <ul class="navbar-links">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="tntg.html" class="active">Tentang Kami</a></li>
+    <li><a href="cs.html">Customer Service</a></li>
+  </ul>
+  <div class="navbar-actions">
+    <a href="login.html" class="btn-nav btn-outline">Masuk</a>
+    <a href="regist coffe.html" class="btn-nav btn-primary">Daftar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero fade-up">
+  <span class="eyebrow">Kisah Kami</span>
+  <h1>Dibuat dengan Cinta,<br>Disajikan dengan <em>Passion</em></h1>
+  <p class="lead">Sejak 2015, kami hadir bukan sekadar sebagai tempat kopi — melainkan rumah kedua bagi siapapun yang mencari kehangatan, ketenangan, dan cita rasa autentik.</p>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stat-item fade-up">
+    <div class="stat-num">9<span class="stat-unit">+</span></div>
+    <div class="stat-label">Tahun Berdiri</div>
+  </div>
+  <div class="stat-item fade-up" style="transition-delay:0.1s">
+    <div class="stat-num">12</div>
+    <div class="stat-label">Cabang di Indonesia</div>
+  </div>
+  <div class="stat-item fade-up" style="transition-delay:0.2s">
+    <div class="stat-num">50<span class="stat-unit">K+</span></div>
+    <div class="stat-label">Member Setia</div>
+  </div>
+  <div class="stat-item fade-up" style="transition-delay:0.3s">
+    <div class="stat-num">85<span class="stat-unit">+</span></div>
+    <div class="stat-label">Varian Menu</div>
+  </div>
+  <div class="stat-item fade-up" style="transition-delay:0.4s">
+    <div class="stat-num">4.9</div>
+    <div class="stat-label">Rating Pelanggan</div>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story-section">
+  <div class="story-text fade-up">
+    <div class="section-label">Asal Usul Kami</div>
+    <h2>Dari Satu Cangkir<br>yang <em>Mengubah Segalanya</em></h2>
+    <p>Al Coffee lahir dari mimpi sederhana — menyajikan kopi spesialti Indonesia yang selama ini tersembunyi di balik pegunungan Flores, Toraja, dan Gayo kepada dunia.</p>
+    <p>Pendiri kami, Alfaby Diar erviano, memulai perjalanannya sebagai barista muda di Surabaya pada 2013. Dua tahun kemudian, dengan modal secangkir impian dan keyakinan penuh, gerai pertama Al Coffee resmi dibuka di Surabaya.</p>
+    <blockquote>
+      "Kopi bukan sekadar minuman. Ia adalah jembatan antara petani yang bekerja keras di ketinggian, dan orang-orang yang merindukannya di balik meja kantor."
+      <br><span style="font-size:0.85rem;color:var(--honey);margin-top:8px;display:block">— alfaby Diar Ervianno, Founder</span>
+    </blockquote>
+    <p>Kini dengan 12 cabang di seluruh Indonesia, kami terus berkomitmen pada satu prinsip: setiap cangkir harus bercerita tentang asal-usulnya.</p>
+  </div>
+  <div class="story-visual fade-up" style="transition-delay:0.2s">
+    <div class="visual-card">
+      <div class="year-label">Berdiri Sejak</div>
+      <div class="year-badge">2015</div>
+      <ul class="milestone-list" style="margin-top:32px">
+        <li><span class="milestone-year">2015</span>Gerai pertama dibuka di Surabaya</li>
+        <li><span class="milestone-year">2017</span>Ekspansi ke Jakarta & Bandung</li>
+        <li><span class="milestone-year">2019</span>Luncurkan program Loyalty Member</li>
+        <li><span class="milestone-year">2021</span>Raih Best Coffee Shop Award Nasional</li>
+        <li><span class="milestone-year">2023</span>Capai 12 cabang & 50.000+ member</li>
+        <li><span class="milestone-year">2025</span>Luncurkan platform digital terpadu</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+  <div class="section-header fade-up">
+    <div class="eyebrow">Filosofi Kami</div>
+    <h2>Tiga Pilar <em>Al Coffee</em></h2>
+    <p>Setiap keputusan yang kami buat berakar pada tiga nilai inti yang telah menjadi DNA perusahaan kami.</p>
+  </div>
+  <div class="values-grid">
+    <div class="value-card card fade-up">
+      <span class="value-icon">🌱</span>
+      <h3>Farm-to-Cup Traceability</h3>
+      <p>Kami mengenal setiap petani yang menanam biji kopi kami. Dari lahan mereka langsung ke cangkir Anda — tanpa perantara, tanpa kompromi pada kualitas.</p>
+    </div>
+    <div class="value-card card fade-up" style="transition-delay:0.1s">
+      <span class="value-icon">🔬</span>
+      <h3>Presisi & Konsistensi</h3>
+      <p>Setiap espresso kami diukur hingga sepersepuluh gram. Q-grader bersertifikat memastikan setiap batch mempertahankan profil rasa yang sempurna.</p>
+    </div>
+    <div class="value-card card fade-up" style="transition-delay:0.2s">
+      <span class="value-icon">🤝</span>
+      <h3>Community First</h3>
+      <p>Dari ruang kerja bersama hingga event komunitas rutin — kami percaya kafe yang baik tidak hanya menjual kopi, tetapi membangun koneksi antar manusia.</p>
+    </div>
+    <div class="value-card card fade-up" style="transition-delay:0.3s">
+      <span class="value-icon">♻️</span>
+      <h3>Keberlanjutan</h3>
+      <p>Target kami: zero-waste operation pada 2026. Cup dapat didaur ulang, ampas kopi menjadi kompos, dan packaging 100% biodegradable.</p>
+    </div>
+    <div class="value-card card fade-up" style="transition-delay:0.4s">
+      <span class="value-icon">🎓</span>
+      <h3>Edukasi Kopi</h3>
+      <p>Kami menyelenggarakan cupping session dan barista workshop reguler untuk siapapun yang ingin mendalami dunia kopi spesialti Indonesia.</p>
+    </div>
+    <div class="value-card card fade-up" style="transition-delay:0.5s">
+      <span class="value-icon">💫</span>
+      <h3>Pengalaman Personal</h3>
+      <p>Barista kami dilatih mengingat preferensi pelanggan setia. Karena kopi terbaik adalah yang dibuat khusus untuk Anda.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <div class="section-header fade-up">
+    <div class="eyebrow">Orang di Balik Layar</div>
+    <h2>Tim <em>Kami</em></h2>
+    <p>Bertemu dengan orang-orang yang berdedikasi menyajikan yang terbaik setiap harinya.</p>
+  </div>
+  <div class="team-grid" style="margin-top:48px">
+    <div class="team-card card fade-up">
+      <div class="team-avatar" style="background:rgba(212,130,10,0.15)">👩‍💼</div>
+      <h4>Alfaby Diar Erviano</h4>
+      <div class="role">CEO & Founder</div>
+      <p>Visioner di balik Aroma Coffee. Memiliki Q-grader Level 2 dan 10+ tahun pengalaman industri kopi.</p>
+    </div>
+    <div class="team-card card fade-up" style="transition-delay:0.1s">
+      <div class="team-avatar" style="background:rgba(181,101,29,0.15)">👨‍🍳</div>
+      <h4>Abdullah Badawi Maqdis</h4>
+      <div class="role">Head of Coffee</div>
+      <p>Mantan World Barista Championship finalist. Ansemble dari Toraja ke Flores dalam setiap menu.</p>
+    </div>
+    <div class="team-card card fade-up" style="transition-delay:0.2s">
+      <div class="team-avatar" style="background:rgba(74,34,0,0.4)">👩‍🎨</div>
+      <h4>Aly Akbar Rafsanjani</h4>
+      <div class="role">Creative Director</div>
+      <p>Desainer di balik estetika Aroma Coffee yang khas. Percaya bahwa visual adalah bagian dari pengalaman.</p>
+    </div>
+    <div class="team-card card fade-up" style="transition-delay:0.3s">
+      <div class="team-avatar" style="background:rgba(26,10,0,0.6)">👨‍💻</div>
+      <h4>Grace Natalie</h4>
+      <div class="role">Head of Operations</div>
+      <p>Mastermind operasional 12 cabang. Memastikan konsistensi standar di setiap gerai Aroma Coffee.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards-section fade-up">
+  <div class="section-header" style="margin-bottom:48px">
+    <div class="eyebrow">Penghargaan</div>
+    <h2>Pengakuan <em>Industri</em></h2>
+  </div>
+  <div class="awards-row">
+    <div class="award-item">
+      <div class="award-icon">🥇</div>
+      <div class="award-name">Best Coffee Shop Indonesia</div>
+      <div class="award-year">Majalah Tempo, 2024</div>
+    </div>
+    <div class="award-item">
+      <div class="award-icon">🏆</div>
+      <div class="award-name">Top 10 Specialty Coffee Asia</div>
+      <div class="award-year">Asia Coffee Guide, 2023</div>
+    </div>
+    <div class="award-item">
+      <div class="award-icon">⭐</div>
+      <div class="award-name">Customer Choice Award</div>
+      <div class="award-year">Google Maps, 2023–2024</div>
+    </div>
+    <div class="award-item">
+      <div class="award-icon">🌱</div>
+      <div class="award-name">Green Business Award</div>
+      <div class="award-year">Kementerian LHK, 2022</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-up">
+  <h2>Rasakan Sendiri<br><em>Perbedaannya</em></h2>
+  <p>Kunjungi gerai kami atau pesan melalui aplikasi. Cangkir pertama Anda menanti.</p>
+  <div class="cta-btns">
+    <a href="index.html" class="btn btn-gold">Lihat Menu →</a>
+    <a href="cs.html" class="btn btn-ghost">Hubungi Kami</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>☕ Al Coffee</h3>
+      <p>Specialty coffee house yang menghadirkan cita rasa terbaik biji kopi Nusantara sejak 2015.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="index.html#menu">Menu</a></li>
+        <li><a href="tntg.html">Tentang Kami</a></li>
+        <li><a href="cs.html">Customer Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Akun</h4>
+      <ul>
+        <li><a href="login.html">Masuk</a></li>
+        <li><a href="regist coffe.html">Daftar</a></li>
+        <li><a href="#">Program Loyalty</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak</h4>
+      <ul>
+        <li><a href="#">Surabaya, Jawa Timur</a></li>
+        <li><a href="#">cs@alcoffee.id</a></li>
+        <li><a href="#">+62 821 3926-1184</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Aroma Coffee. All rights reserved.</span>
+    <span>Made with ❤️ & ☕ in Surabaya</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+

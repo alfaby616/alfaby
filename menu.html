@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page {
+      padding-top: 72px;
+    }
+
+    .menu-hero {
+      padding: 90px 80px 40px;
+      text-align: center;
+      border-top: 1px solid rgba(255,248,240,0.07);
+    }
+    .menu-hero .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--honey);
+      margin-bottom: 16px;
+    }
+    .menu-hero h1 {
+      font-size: clamp(2.4rem, 4.8vw, 4.2rem);
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .menu-hero h1 em { color: var(--gold); font-style: italic; }
+    .menu-hero p {
+      color: rgba(245,230,208,0.55);
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.9;
+      font-size: 0.95rem;
+    }
+
+    .menu-toolbar {
+      padding: 26px 80px 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .search-wrap { grid-column: 1 / -1; }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      border: 1.5px solid rgba(255,248,240,0.12);
+      background: rgba(255,248,240,0.05);
+      color: var(--cream);
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.98rem;
+    }
+    .search-input::placeholder { color: rgba(245,230,208,0.35); }
+    .search-input:focus {
+      border-color: var(--honey);
+      box-shadow: 0 0 0 3px rgba(212,130,10,0.15);
+      background: rgba(255,248,240,0.08);
+    }
+
+    .filter-row {
+      padding: 0 80px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      cursor: pointer;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(232,168,40,0.25);
+      background: rgba(255,248,240,0.03);
+      color: rgba(245,230,208,0.65);
+      padding: 10px 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .filter-btn.active {
+      background: rgba(232,168,40,0.15);
+      border-color: rgba(232,168,40,0.5);
+      color: var(--gold);
+    }
+    .filter-btn:hover {
+      border-color: rgba(232,168,40,0.45);
+      color: var(--gold);
+    }
+
+    .menu-grid {
+      padding: 20px 80px 90px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .drink-card {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255,248,240,0.1);
+      background: rgba(255,248,240,0.04);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+    }
+    .drink-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(232,168,40,0.35);
+      background: rgba(255,248,240,0.07);
+      box-shadow: var(--shadow-warm);
+    }
+
+    .drink-img {
+      height: 170px;
+      position: relative;
+      background: linear-gradient(160deg, rgba(74,34,0,0.35) 0%, rgba(45,22,0,0.65) 100%);
+      overflow: hidden;
+    }
+
+    /* Gambar bisa diganti dengan asset asli (mis: assets/menu1.jpg) */
+    .drink-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.92;
+      transform: scale(1.02);
+    }
+
+    .drink-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle 220px at 30% 20%, rgba(212,130,10,0.25) 0%, transparent 65%),
+        linear-gradient(180deg, transparent 40%, rgba(26,10,0,0.55) 100%);
+      pointer-events: none;
+    }
+
+    .drink-body {
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .drink-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .drink-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(232,168,40,0.22);
+      background: rgba(232,168,40,0.13);
+      color: var(--gold);
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+
+    .drink-price {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      color: rgba(245,230,208,0.78);
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+
+    .drink-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      color: var(--white);
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .drink-desc {
+      color: rgba(245,230,208,0.55);
+      line-height: 1.8;
+      font-size: 0.92rem;
+      flex: 1;
+    }
+
+    .drink-actions {
+      padding: 16px 18px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+      background: rgba(0,0,0,0.08);
+    }
+
+    .drink-actions a {
+      padding: 12px 16px;
+      border-radius: var(--radius-pill);
+    }
+
+    @media (max-width: 900px) {
+      .menu-hero { padding: 75px 24px 30px; }
+      .menu-toolbar { padding: 18px 24px 6px; }
+      .filter-row { padding: 0 24px 18px; }
+      .menu-grid { padding: 16px 24px 60px; grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <div class="logo-icon">☕</div>
+      Al Coffee
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="tntg.html">Tentang Kami</a></li>
+      <li><a href="cs.html">Customer Service</a></li>
+    </ul>
+    <div class="navbar-cart" style="display:flex; align-items:center; gap:12px;">
+      <a href="keranjang.html" class="btn-nav btn-outline" style="white-space:nowrap;">Keranjang (<span id="cartCount">0</span>)</a>
+    </div>
+
+    <div class="navbar-actions">
+      <a href="login.html" class="btn-nav btn-outline">Masuk</a>
+      <a href="regist coffe.html" class="btn-nav btn-primary">Daftar</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="menu-hero">
+      <div class="eyebrow">Menu</div>
+      <h1>Racikan <em>Special</em> Pilihan</h1>
+      <p>Pilih menu sesuai selera. Kamu bisa gunakan pencarian dan filter kategori. (Gambar placeholder siap diganti.)</p>
+    </section>
+
+    <section class="menu-toolbar">
+      <div class="search-wrap">
+        <input id="searchInput" class="search-input" type="text" placeholder="Cari: latte, espresso, cold brew, matcha..." />
+      </div>
+    </section>
+
+    <section class="filter-row" aria-label="Filter kategori">
+      <div class="filter-btn active" data-filter="all">Semua</div>
+      <div class="filter-btn" data-filter="coffee">Coffee</div>
+      <div class="filter-btn" data-filter="milk">Milk</div>
+      <div class="filter-btn" data-filter="tea">Tea</div>
+      <div class="filter-btn" data-filter="fresh">Fresh</div>
+    </section>
+
+    <section class="menu-grid" id="menuGrid">
+      <!-- CARD 1 -->
+      <article class="drink-card" data-category="milk" data-name="Al Honey Latte">
+        <div class="drink-img">
+          <img alt="Al Honey Latte" src="" onerror="this.style.display='none'" />
+        </div>
+        <div class="drink-body">
+          <div class="drink-top">
+            <div class="drink-tag">Member</div>
+            <div class="drink-price">Rp 28.000</div>
+          </div>
+          <div class="drink-name">Al Honey Latte</div>
+          <div class="drink-desc">Latte creamy dengan sentuhan madu hangat. Manis lembut, finish clean.</div>
+        </div>
+        <div class="drink-actions">
+          <span style="color:rgba(245,230,208,0.45);font-weight:700;font-size:0.88rem;">★ 4.9</span>
+          <a href="javascript:void(0)" class="btn btn-ghost add-to-cart" style="padding:12px 16px;" data-name="Al Honey Latte" data-price="28000" data-category="milk">Masukkan Keranjang</a>
+        </div>
+      </article>
+
+
+      <!-- CARD 2 -->
+      <article class="drink-card" data-category="coffee" data-name="Toraja Dark Espresso">
+        <div class="drink-img">
+          <img alt="Toraja Dark Espresso" src="" onerror="this.style.display='none'" />
+        </div>
+        <div class="drink-body">
+          <div class="drink-top">
+            <div class="drink-tag">Signature</div>
+            <div class="drink-price">Rp 22.000</div>
+          </div>
+          <div class="drink-name">Toraja Dark Espresso</div>
+          <div class="drink-desc">Single origin Toraja dengan body tebal, aroma cokelat, aftertaste karamel.</div>
+        </div>
+        <div class="drink-actions">
+          <span style="color:rgba(245,230,208,0.45);font-weight:700;font-size:0.88rem;">★ 4.8</span>
+          <a href="javascript:void(0)" class="btn btn-ghost add-to-cart" style="padding:12px 16px;" data-name="Toraja Dark Espresso" data-price="22000" data-category="coffee">Masukkan Keranjang</a>
+        </div>
+      </article>
+
+
+      <!-- CARD 3 -->
+      <article class="drink-card" data-category="fresh" data-name="Iced Citrus Cold Brew">
+        <div class="drink-img">
+          <img alt="Iced Citrus Cold Brew" src="" onerror="this.style.display='none'" />
+        </div>
+        <div class="drink-body">
+          <div class="drink-top">
+            <div class="drink-tag">Fresh</div>
+            <div class="drink-price">Rp 30.000</div>
+          </div>
+          <div class="drink-name">Iced Citrus Cold Brew</div>
+          <div class="drink-desc">Cold brew segar dengan citrus. Asam cerah seimbang, kopi tetap halus.</div>
+        </div>
+        <div class="drink-actions">
+          <span style="color:rgba(245,230,208,0.45);font-weight:700;font-size:0.88rem;">★ 4.7</span>
+          <a href="javascript:void(0)" class="btn btn-ghost add-to-cart" style="padding:12px 16px;" data-name="Iced Citrus Cold Brew" data-price="30000" data-category="fresh">Masukkan Keranjang</a>
+        </div>
+      </article>
+
+      <!-- CARD 4 -->
+
+      <article class="drink-card" data-category="tea" data-name="Matcha Creamy">
+        <div class="drink-img">
+          <img alt="Matcha Creamy" src="" onerror="this.style.display='none'" />
+        </div>
+        <div class="drink-body">
+          <div class="drink-top">
+            <div class="drink-tag">Tea Time</div>
+            <div class="drink-price">Rp 27.000</div>
+          </div>
+          <div class="drink-name">Matcha Creamy</div>
+          <div class="drink-desc">Matcha creamy dengan tekstur lembut. Rasa earthiness-nya tetap dominan.</div>
+        </div>
+        <div class="drink-actions">
+          <span style="color:rgba(245,230,208,0.45);font-weight:700;font-size:0.88rem;">★ 4.6</span>
+          <a href="javascript:void(0)" class="btn btn-ghost add-to-cart" style="padding:12px 16px;" data-name="Matcha Creamy" data-price="27000" data-category="tea">Masukkan Keranjang</a>
+        </div>
+      </article>
+
+      <!-- CARD 5 -->
+
+      <article class="drink-card" data-category="coffee" data-name="Americano Classic">
+        <div class="drink-img">
+          <img alt="Americano Classic" src="" onerror="this.style.display='none'" />
+        </div>
+        <div class="drink-body">
+          <div class="drink-top">
+            <div class="drink-tag">Classic</div>
+            <div class="drink-price">Rp 20.000</div>
+          </div>
+          <div class="drink-name">Americano Classic</div>
+          <div class="drink-desc">Americano clean dengan body pas. Cocok untuk kamu yang suka rasa espresso murni.</div>
+        </div>
+        <div class="drink-actions">
+          <span style="color:rgba(245,230,208,0.45);font-weight:700;font-size:0.88rem;">★ 4.5</span>
+          <a href="javascript:void(0)" class="btn btn-ghost add-to-cart" style="padding:12px 16px;" data-name="Americano Classic" data-price="20000" data-category="coffee">Masukkan Keranjang</a>
+        </div>
+      </article>
+
+      <!-- CARD 6 -->
+
+      <article class="drink-card" data-category="milk" data-name="Caramel Latte">
+        <div class="drink-img">
+          <img alt="Caramel Latte" src="" onerror="this.style.display='none'" />
+        </div>
+        <div class="drink-body">
+          <div class="drink-top">
+            <div class="drink-tag">Sweet</div>
+            <div class="drink-price">Rp 29.000</div>
+          </div>
+          <div class="drink-name">Caramel Latte</div>
+          <div class="drink-desc">Latte dengan saus karamel hangat. Manisnya pas, aroma karamel terasa.</div>
+        </div>
+        <div class="drink-actions">
+          <span style="color:rgba(245,230,208,0.45);font-weight:700;font-size:0.88rem;">★ 4.9</span>
+          <a href="javascript:void(0)" class="btn btn-ghost add-to-cart" style="padding:12px 16px;" data-name="Caramel Latte" data-price="29000" data-category="milk">Masukkan Keranjang</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>☕ Al Coffee</h3>
+        <p>Specialty coffee house yang menghadirkan cita rasa terbaik biji kopi Nusantara sejak 2015.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="tntg.html">Tentang Kami</a></li>
+          <li><a href="cs.html">Customer Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Akun</h4>
+        <ul>
+          <li><a href="login.html">Masuk</a></li>
+          <li><a href="regist coffe.html">Daftar</a></li>
+          <li><a href="#">Program Loyalty</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Surabaya, Jawa Timur</a></li>
+          <li><a href="#">cs@alcoffee.id</a></li>
+          <li><a href="#">+62 821 3926-1184</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Aroma Coffee. All rights reserved.</span>
+      <span>Made with ❤️ & ☕ in Surabaya</span>
+    </div>
+  </footer>
+
+  <script>
+
+    // Add-to-cart handler (localStorage.aromaCart: [{name, price, qty}])
+    const cartKey = 'aromaCart';
+
+    function loadCart() {
+      const raw = localStorage.getItem(cartKey);
+      return raw ? JSON.parse(raw) : [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+
+    function syncCartCount() {
+      const cartCountEls = document.querySelectorAll('#cartCount');
+      if (!cartCountEls.length) return;
+      const cart = loadCart();
+      const count = cart.reduce((sum, it) => sum + (Number(it.qty || 1)), 0);
+      cartCountEls.forEach(el => (el.textContent = String(count)));
+    }
+
+    function addItem({ name, price, category }) {
+      const cart = loadCart();
+      const p = Number(price || 0);
+      const n = String(name || '').trim();
+      if (!n || !Number.isFinite(p) || p <= 0) return;
+
+      const foundIndex = cart.findIndex(it => it.name === n);
+      if (foundIndex >= 0) {
+        cart[foundIndex].qty = (cart[foundIndex].qty || 1) + 1;
+      } else {
+        cart.push({ name: n, price: p, qty: 1, category: category || '' });
+      }
+
+      saveCart(cart);
+      syncCartCount();
+
+      const btn = document.querySelector(`[data-name="${CSS.escape(n)}"]`);
+      if (btn) {
+        btn.textContent = 'Tambah Lagi ✓';
+        setTimeout(() => (btn.textContent = 'Masukkan Keranjang'), 900);
+      }
+    }
+
+    // Wire buttons
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const name = btn.getAttribute('data-name');
+        const price = btn.getAttribute('data-price');
+        const category = btn.getAttribute('data-category');
+        addItem({ name, price, category });
+      });
+    });
+
+    // Search + Filter
+    const searchInput = document.getElementById('searchInput');
+    const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
+    const drinkCards = Array.from(document.querySelectorAll('.drink-card'));
+
+    let activeFilter = 'all';
+    let activeQuery = '';
+
+    function normalize(str) {
+      return String(str || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function applySearchAndFilter() {
+      const q = normalize(activeQuery);
+
+      drinkCards.forEach(card => {
+        const cat = String(card.getAttribute('data-category') || '');
+        const name = String(card.getAttribute('data-name') || '');
+        const desc = String(card.querySelector('.drink-desc')?.textContent || '');
+
+        const matchesCategory = activeFilter === 'all' || cat === activeFilter;
+        const matchesQuery = !q || normalize(name).includes(q) || normalize(desc).includes(q);
+
+        card.style.display = matchesCategory && matchesQuery ? '' : 'none';
+      });
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        activeQuery = e.target.value || '';
+        applySearchAndFilter();
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.getAttribute('data-filter') || 'all';
+
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        applySearchAndFilter();
+      });
+    });
+
+    // initial sync
+    applySearchAndFilter();
+    syncCartCount();
+
+    // avoid leaving hidden buttons focusable in some browsers
+    window.addEventListener('resize', () => applySearchAndFilter());
+  </script>
+
+</body>
+</html>
+
+
+

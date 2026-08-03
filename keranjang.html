@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Keranjang — Al Coffee</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page { padding-top: 72px; }
+
+    .cart-hero {
+      padding: 80px 80px 20px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+      text-align: center;
+    }
+    .cart-hero h1 { color: var(--white); font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 10px; }
+    .cart-hero p { color: rgba(245,230,208,0.55); max-width: 760px; margin: 0 auto; line-height: 1.9; font-size: 0.95rem; }
+
+    .cart-layout {
+      padding: 26px 80px 90px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,248,240,0.1);
+      background: rgba(255,248,240,0.04);
+      overflow: hidden;
+    }
+
+    .cart-item-img {
+      width: 120px;
+      height: 90px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(74,34,0,0.35) 0%, rgba(45,22,0,0.65) 100%);
+      border: 1px solid rgba(255,248,240,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(245,230,208,0.35);
+      font-weight: 900;
+    }
+
+    .cart-item-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .cart-item-meta {
+      color: rgba(245,230,208,0.55);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .qty-btn {
+      width: 36px; height: 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(232,168,40,0.28);
+      background: rgba(232,168,40,0.12);
+      color: var(--gold);
+      cursor: pointer;
+      font-weight: 900;
+      transition: var(--transition);
+    }
+    .qty-btn:hover { transform: translateY(-1px); border-color: rgba(232,168,40,0.5); }
+
+    .qty {
+      min-width: 42px;
+      text-align: center;
+      font-weight: 900;
+      color: rgba(245,230,208,0.75);
+    }
+
+    .remove {
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+      color: rgba(245,230,208,0.45);
+      font-weight: 800;
+      font-size: 0.88rem;
+      transition: var(--transition);
+    }
+    .remove:hover { color: rgba(245,230,208,0.8); text-decoration: underline; }
+
+    .summary {
+      position: sticky;
+      top: 90px;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,248,240,0.1);
+      background: rgba(255,248,240,0.04);
+      box-shadow: none;
+    }
+
+    .summary h2 {
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(245,230,208,0.6);
+      margin: 10px 0;
+      font-weight: 700;
+    }
+
+    .total {
+      color: var(--gold);
+      font-size: 1.25rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,248,240,0.07);
+    }
+
+    .summary .actions {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-full { width: 100%; }
+
+    .empty {
+      padding: 70px 24px;
+      text-align: center;
+      color: rgba(245,230,208,0.55);
+    }
+
+    /* Scroll animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .cart-hero { padding: 70px 24px 10px; }
+      .cart-layout { padding: 18px 24px 60px; grid-template-columns: 1fr; }
+      .summary { position: static; }
+      .cart-item { grid-template-columns: 90px 1fr; }
+      .qty-row { grid-column: 1 / -1; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body class="page-bg">
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <div class="logo-icon">☕</div>
+      Al Coffee
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="tntg.html">Tentang Kami</a></li>
+      <li><a href="cs.html">Customer Service</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="btn-nav btn-outline">Masuk</a>
+      <a href="regist coffe.html" class="btn-nav btn-primary">Daftar</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="cart-hero fade-up">
+      <h1>Keranjang</h1>
+      <p>Atur jumlah pesanan. Setelah siap, lanjut ke halaman pembayaran.</p>
+    </section>
+
+    <section class="cart-layout">
+      <div>
+        <div id="cartList" class="cart-list"></div>
+        <div id="emptyState" class="empty" style="display:none;">
+          Keranjang kamu masih kosong.
+          <div style="margin-top:16px;">
+            <a href="menu.html" class="btn btn-gold" style="padding:14px 22px;">Buka Menu →</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="summary">
+        <h2>Ringkasan</h2>
+        <div class="line"><span>Subtotal</span><span id="subtotal">Rp 0</span></div>
+        <div class="line"><span>Biaya Layanan</span><span id="serviceFee">Rp 0</span></div>
+        <div class="line"><span>Estimasi Pajak</span><span id="taxFee">Rp 0</span></div>
+        <div class="total">Total: <span id="total">Rp 0</span></div>
+
+        <div class="actions">
+          <a id="checkoutBtn" href="pembayaran.html" class="btn btn-gold btn-full" style="text-decoration:none; text-align:center; pointer-events:none; opacity:0.55;">Checkout</a>
+          <button id="clearBtn" type="button" class="btn btn-ghost btn-full" style="border-radius: var(--radius-pill);">Kosongkan Keranjang</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>☕ Al Coffee</h3>
+        <p>Specialty coffee house yang menghadirkan cita rasa terbaik biji kopi Nusantara sejak 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="tntg.html">Tentang Kami</a></li>
+          <li><a href="cs.html">Customer Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Akun</h4>
+        <ul>
+          <li><a href="login.html">Masuk</a></li>
+          <li><a href="regist coffe.html">Daftar</a></li>
+          <li><a href="#">Program Loyalty</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Surabaya, Jawa Timur</a></li>
+          <li><a href="#">cs@alcoffee.id</a></li>
+          <li><a href="#">+62 821 3926-1184</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Aroma Coffee. All rights reserved.</span>
+      <span>Made with ❤️ & ☕ in Surabaya</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) el.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    const cartRaw = localStorage.getItem('aromaCart');
+    let cart = cartRaw ? JSON.parse(cartRaw) : [];
+
+    function formatIDR(n) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+    }
+
+    const cartList = document.getElementById('cartList');
+    const emptyState = document.getElementById('emptyState');
+    const subtotalEl = document.getElementById('subtotal');
+    const serviceFeeEl = document.getElementById('serviceFee');
+    const taxFeeEl = document.getElementById('taxFee');
+    const totalEl = document.getElementById('total');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    const serviceFeeRate = 0.03; // 3%
+    const taxFeeRate = 0.02; // 2%
+
+    function saveCart() {
+      localStorage.setItem('aromaCart', JSON.stringify(cart));
+    }
+
+    function render() {
+      cartList.innerHTML = '';
+
+      if (!cart.length) {
+        emptyState.style.display = 'block';
+        checkoutBtn.style.pointerEvents = 'none';
+        checkoutBtn.style.opacity = '0.55';
+        subtotalEl.textContent = formatIDR(0);
+        serviceFeeEl.textContent = formatIDR(0);
+        taxFeeEl.textContent = formatIDR(0);
+        totalEl.textContent = formatIDR(0);
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      checkoutBtn.style.pointerEvents = 'auto';
+      checkoutBtn.style.opacity = '1';
+
+      const items = cart.map(it => {
+        const name = it.name;
+        const price = Number(it.price || 0);
+        const qty = Number(it.qty || 1);
+        return { name, price, qty, line: price * qty };
+      });
+
+      const subtotal = items.reduce((sum, x) => sum + x.line, 0);
+      const serviceFee = Math.round(subtotal * serviceFeeRate);
+      const taxFee = Math.round(subtotal * taxFeeRate);
+      const total = subtotal + serviceFee + taxFee;
+
+      subtotalEl.textContent = formatIDR(subtotal);
+      serviceFeeEl.textContent = formatIDR(serviceFee);
+      taxFeeEl.textContent = formatIDR(taxFee);
+      totalEl.textContent = formatIDR(total);
+
+      cart.forEach((item, index) => {
+        const price = Number(item.price || 0);
+        const qty = Number(item.qty || 1);
+        const line = price * qty;
+
+        const row = document.createElement('div');
+        row.className = 'cart-item fade-up visible';
+
+        row.innerHTML = `
+          <div class="cart-item-img">☕</div>
+          <div>
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-meta">${formatIDR(price)} • Total: ${formatIDR(line)}</div>
+          </div>
+          <div>
+            <div class="qty-row">
+              <button class="qty-btn" data-action="minus" data-index="${index}">−</button>
+              <div class="qty">${qty}</div>
+              <button class="qty-btn" data-action="plus" data-index="${index}">+</button>
+            </div>
+            <a class="remove" href="#" data-action="remove" data-index="${index}">Hapus</a>
+          </div>
+        `;
+
+        cartList.appendChild(row);
+      });
+
+      cartList.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const action = e.currentTarget.getAttribute('data-action');
+          const idx = Number(e.currentTarget.getAttribute('data-index'));
+
+          if (action === 'plus') cart[idx].qty = (cart[idx].qty || 1) + 1;
+          if (action === 'minus') cart[idx].qty = Math.max(1, (cart[idx].qty || 1) - 1);
+
+          saveCart();
+          render();
+        });
+      });
+
+      cartList.querySelectorAll('[data-action="remove"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idx = Number(e.currentTarget.getAttribute('data-index'));
+          cart.splice(idx, 1);
+          saveCart();
+          render();
+        });
+      });
+    }
+
+    clearBtn.addEventListener('click', () => {
+      cart = [];
+      saveCart();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
+
